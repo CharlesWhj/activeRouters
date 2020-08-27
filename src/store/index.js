@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-
+import UserRole from './modules/getUserRole'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -11,5 +11,6 @@ export default new Vuex.Store({
   actions: {
   },
   modules: {
+    UserRole
   }
 })

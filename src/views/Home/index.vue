@@ -43,6 +43,7 @@ export default {
     }),
   },
   methods: {
+    ...mapMutations(["UserRole/ELIMINATE_ROLE"]),
     btnside() {
     },
     exit() {
@@ -53,13 +54,14 @@ export default {
         center: true,
       })
         .then(() => {
+          // this.ELIMINATE_ROLE(); //清除roles
+          this.$store.commit("UserRole/ELIMINATE_ROLE")
           util.removeCookies();
           this.$router.push("login");
           this.$message({
             type: "success",
             message: "退出成功！！！",
           });
-          this.ELIMINATE_ROLE(); //清除roles
         })
         .catch(() => {
           this.$message({

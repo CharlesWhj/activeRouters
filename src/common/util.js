@@ -19,6 +19,7 @@ export const getRouters =
     //   }, []);
     // }//第一种方法
     if (routers) {
+      // let routersArr = JSON.parse(JSON.stringify(routers))
       return routers.filter(function(item) {
         if (item.meta && item.meta.role) {
           if (item.children && item.children.length > 0) {

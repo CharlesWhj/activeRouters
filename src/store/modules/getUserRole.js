@@ -1,5 +1,7 @@
-import { defaultRouter, dynamicRouter } from "@/router/index";
+import { defaultRouter } from "@/router/index";
+import {dynamicRouter} from '@/router/activeRouters'
 import {getRouters} from '@/common/util'
+import util from '@/common/auth'
 const state = {
   roles: [],
   // 动态路由的存储
@@ -30,10 +32,10 @@ const actions = {
   // 获取用户的角色
   getUserRoles({ commit }) {
     return new Promise((resolve, reject) => {
-      let index = parseInt(2*Math.random())
-      let roleArray = [ "admin","sale"]//["sale", "manager", "technician", "admin"];
-      let role = roleArray.slice(index)
-      console.log(role);
+     let role = util.getCookies("BackARuserName")=='13570988783'? ["admin"] : ["sale"]
+      // let index = parseInt(2*Math.random())
+      // let roleArray = [ "admin","sale"]//["sale", "manager", "technician", "admin"];
+      // let role = roleArray.slice(index)
       commit("SET_ROLE", role);
       resolve(role);
     });
@@ -43,14 +45,16 @@ const actions = {
     return new Promise((resolve, reject) => {
       if (data) {
         let roles = data; // ["infoSystem","userSystem"]
+        // console.log(roles);
         let dynamicRouterStorage = [];
         // 超级用户
         if (roles.includes("admin")) {
-          dynamicRouterStorage = dynamicRouter;
+          dynamicRouterStorage = dynamicRouter();
         } else {
           //普通用户
-          dynamicRouterStorage = getRouters(roles,dynamicRouter)
+          dynamicRouterStorage = getRouters(roles, dynamicRouter())
         }
+        console.log(dynamicRouterStorage);
         commit("SET_ROUTER", dynamicRouterStorage);
         resolve(dynamicRouterStorage);
       }

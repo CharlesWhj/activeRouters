@@ -1,8 +1,8 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home/index.vue";
+import Login from '../views/Login/index.vue'
 import util from "@/common/auth";
-import { ActiveRouter } from "./activeRouters";
 import store from '../store/index'
 Vue.use(VueRouter);
 // 防止路由被重复点击跳转报错
@@ -10,7 +10,6 @@ const originalPush = VueRouter.prototype.push;
 VueRouter.prototype.push = function push(location) {
   return originalPush.call(this, location).catch((err) => err);
 };
-export const dynamicRouter = ActiveRouter;
 export const defaultRouter = [
   {
     path: "/",
@@ -20,7 +19,7 @@ export const defaultRouter = [
   {
     path: "/login",
     name: "Login",
-    component: () => import("@/views/Login/index.vue"),
+    component: Login,
   }
 ];
 const router = new VueRouter({
@@ -42,11 +41,13 @@ router.beforeEach((to, from, next) => {
             let roles = res;
             store.dispatch("UserRole/dynamicRouters", roles).then((res) => {
               // 已经筛选过后的路由
-              let allRouter = store.state["UserRole/allRouter"];
+              let allRouter = store.state.UserRole.allRouter;
+              console.log(allRouter);
               // 添加动态路由
               router.addRoutes(res);
               // 更新路由
               router.options.routes = allRouter;
+              console.log(router);
               next({ ...to, replace: true });
             });
           });

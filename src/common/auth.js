@@ -1,4 +1,4 @@
-export default class auth {
+export default class util {
   constructor() {}
   /**
    * @description 设置cookies
